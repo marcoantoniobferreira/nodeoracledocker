@@ -1,0 +1,20 @@
+version: '3'
+
+services: 
+  oracle-db:
+    build: 
+      context: .
+      dockerfile: Dockerfile-db
+    ports:
+      - 1521:1521
+      - 5500:5500
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile-app
+    environment:
+      - NODE_ORACLEDB_USER=system
+      - NODE_ORACLEDB_PASSWORD=oracle
+      - NODE_ORACLEDB_CONNECTIONSTRING=nodeoracledocker_oracle-db_1:1521/quiterinho
+    depends_on:
+      - oracle-db
